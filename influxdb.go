@@ -1,12 +1,14 @@
 package main
 
 import (
+	"os"
 	"time"
 
 	client "github.com/influxdata/influxdb/client/v2"
 )
 
-const influxDBURL = "http://test"
+var influxDBURL = os.Getenv("INFLUXURL")
+
 const influxDBDB = "kiosk"
 
 func addPoint(api APIData) error {
