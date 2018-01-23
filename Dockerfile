@@ -1,6 +1,6 @@
 ARG arch
 FROM multiarch/alpine:${arch}-edge
 
-COPY ./api /api
+COPY ./expino-api /expino-api
 
-CMD /api
+CMD /expino-api
