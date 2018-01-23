@@ -1,6 +1,8 @@
+language: go
+go:
+  - 1.9
 sudo: required
 services: docker
-language: go
 env:
     global:
         - QEMU_VER=v2.9.1
