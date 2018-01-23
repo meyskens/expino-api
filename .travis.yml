@@ -5,9 +5,10 @@ env:
     global:
         - QEMU_VER=v2.9.1
         - DOCKER_REPO=expino/api
+        - GO_ARM=6
     matrix:
         - ARCH=amd64    VERSION=v3.2.11    QEMU_ARCH=x86_64  GO_ARCH=amd64
-        - ARCH=armhf    VERSION=v3.2.11    QEMU_ARCH=arm     GO_ARCH=arm GO_ARM=6
+        - ARCH=armhf    VERSION=v3.2.11    QEMU_ARCH=arm     GO_ARCH=arm
         - ARCH=arm64    VERSION=v3.2.11    QEMU_ARCH=aarch64 GO_ARCH=arm64
         
 
