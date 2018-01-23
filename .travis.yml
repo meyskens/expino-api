@@ -1,0 +1,27 @@
+sudo: required
+services: docker
+language: go
+env:
+    global:
+        - QEMU_VER=v2.9.1
+        - DOCKER_REPO=expino/api
+    matrix:
+        - ARCH=amd64    VERSION=v3.2.11    QEMU_ARCH=x86_64  GO_ARCH=amd64
+        - ARCH=armhf    VERSION=v3.2.11    QEMU_ARCH=arm     GO_ARCH=arm GO_ARM=6
+        - ARCH=arm64    VERSION=v3.2.11    QEMU_ARCH=aarch64 GO_ARCH=arm64
+        
+
+before_install:
+  - curl -fsSL https://download.docker.com/linux/ubuntu/gpg | sudo apt-key add -
+  - sudo add-apt-repository "deb [arch=amd64] https://download.docker.com/linux/ubuntu $(lsb_release -cs) stable"
+  - sudo apt-get update
+  - sudo apt-get -y install docker-ce
+
+before_script:
+    - sudo apt-get -y install qemu-user-static
+    - docker run --rm --privileged multiarch/qemu-user-static:register
+script:
+    - sudo ./build.sh --arch="$ARCH" --version="$VERSION" --qemuarch="$QEMU_ARCH" --qemuversion="$QEMU_VER" --repo="$DOCKER_REPO" --goarch="$GO_ARCH" --goarm="$GO_ARM" 
+after_success:
+    - docker login -u="$DOCKER_USERNAME" -p="$DOCKER_PASSWORD"
+    - docker push $DOCKER_REPO
