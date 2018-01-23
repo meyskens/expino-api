@@ -24,7 +24,8 @@ before_script:
     - sudo apt-get -y install qemu-user-static
     - docker run --rm --privileged multiarch/qemu-user-static:register
 script:
-    - sudo ./build.sh --arch="$ARCH" --version="$VERSION" --qemuarch="$QEMU_ARCH" --qemuversion="$QEMU_VER" --repo="$DOCKER_REPO" --goarch="$GO_ARCH" --goarm="$GO_ARM" 
+    - GOARCH=$GO_ARCH GOARM=$GO_ARM go build ./
+    - sudo ./build.sh --arch="$ARCH" --version="$VERSION" --qemuarch="$QEMU_ARCH" --qemuversion="$QEMU_VER" --repo="$DOCKER_REPO"
 after_success:
     - docker login -u="$DOCKER_USERNAME" -p="$DOCKER_PASSWORD"
     - docker push $DOCKER_REPO

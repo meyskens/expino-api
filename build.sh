@@ -41,12 +41,6 @@ for i in "$@"
         --repo=*)
             DOCKER_REPO="${i#*=}"
         ;;
-        --goarch=*)
-            GO_ARCH="${i#*=}"
-        ;;
-        --goarm=*)
-            GO_ARM="${i#*=}"
-        ;;
         *)
         # unknown option
         ;;
@@ -60,7 +54,5 @@ if [ -n "${QEMU_ARCH}" ]; then
     fi
     tar -xvf x86_64_qemu-${QEMU_ARCH}-static.tar.gz -C $ROOTFS/usr/bin/
 fi
-
-GOARCH=$GO_ARCH GOARM=GO_ARM go build ./
 
 docker build --build-arg arch="${ARCH}" -t "${DOCKER_REPO}:${ARCH}-${VERSION}" ./
