@@ -60,7 +60,7 @@ func addPoint(api APIData) error {
 func queryDB(clnt client.Client, cmd string) (res []client.Result, err error) {
 	q := client.Query{
 		Command:  cmd,
-		Database: MyDB,
+		Database: "kiosk",
 	}
 	if response, err := clnt.Query(q); err == nil {
 		if response.Error() != nil {
