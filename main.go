@@ -1,7 +1,6 @@
 package main
 
 import (
-	"fmt"
 	"net/http"
 
 	"github.com/labstack/echo"
@@ -27,7 +26,6 @@ func handleAPI(c echo.Context) error {
 	}
 
 	for _, data := range input {
-		fmt.Println(data)
 		if len(data.Data) == 0 {
 			return c.JSON(http.StatusBadRequest, map[string]string{"status": "error", "error": "no sensor data sent"})
 		}
