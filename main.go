@@ -18,14 +18,18 @@ func main() {
 }
 
 func handleAPI(c echo.Context) error {
-	data := APIData{}
-	c.Bind(&data)
-	if len(data.Data) == 0 {
-		return c.JSON(http.StatusBadRequest, map[string]string{"status": "error", "error": "no sensor data sent"})
+	input := []APIData{}
+	c.Bind(&input)
+
+	for _, data := range input {
+		if len(data.Data) == 0 {
+			return c.JSON(http.StatusBadRequest, map[string]string{"status": "error", "error": "no sensor data sent"})
+		}
+		err := addPoint(data)
+		if err != nil {
+			return c.JSON(http.StatusBadRequest, map[string]string{"status": "error", "error": err.Error()})
+		}
 	}
-	err := addPoint(data)
-	if err != nil {
-		return c.JSON(http.StatusBadRequest, map[string]string{"status": "error", "error": err.Error()})
-	}
+
 	return c.JSON(http.StatusOK, map[string]string{"status": "ok"})
 }
